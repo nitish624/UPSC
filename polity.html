@@ -1,14 +1,196 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title></title>
+  <meta charset="utf-8">
+  <title>Custom YouTube Playlist Player</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-  
-</body>
+  <h2 id="heading">🎬 Indian polity by Rajesh Mishra Sir Playlist</h2>
 
+  <div class="container">
+    <!-- Video Player -->
+    <div class="video-container" id="videoContainer">
+      <div id="player"></div>
+      <div class="click-block"></div>
+
+      <div class="controls">
+        <input type="range" id="seekBar" min="0" max="100" value="0">
+        <button id="backward">⏪</button>
+        <button id="playPauseBtn">▶️</button>
+        <button id="forward">⏩</button>
+        <select id="qualityControl"></select>
+        <button id="fullscreenBtn">⛶</button>
+      </div>
+    </div>
+
+    <!-- Playlist -->
+    <div class="playlist" id="playlist">
+      <h3>📜 Playlist</h3>
+    </div>
+  </div>
+
+  <!-- YouTube API -->
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script>
+    let player;
+    let seekBar = null;
+    let updateInterval;
+    let currentIndex = 0;
+    let isPlaying = false;
+
+    // 🔹 Playlist Data
+    const videos = [
+{ id: "u2cKaVXz19Q", title: "Video 1" },
+{ id: "orDYMgZox3A", title: "Video 2" },
+{ id: "XM4o99WYELg", title: "Video 3" },
+{ id: "5GtwcqkQ0fM", title: "Video 4" },
+{ id: "b9BJMuUHVJ8", title: "Video 5" },
+{ id: "BVTrIqSy-WU", title: "Video 6" },
+{ id: "-CGwzPgZeFg", title: "Video 7" },
+{ id: "bR1oa-DdSms", title: "Video 8" },
+{ id: "a3wAfsFQdEI", title: "Video 9" },
+{ id: "snovbBEQEOo", title: "Video 10" },
+{ id: "eW0Ajcj7zmY", title: "Video 11" },
+{ id: "5Zx4tI4M3hw", title: "Video 12" },
+{ id: "JLw7Mz6irPE", title: "Video 13" },
+{ id: "xblZq6htaH8", title: "Video 14" },
+{ id: "4Gx_fafAcPg", title: "Video 15" },
+{ id: "PS-K9fWZHtI", title: "Video 16" },
+{ id: "3tRUGSBc-0k", title: "Video 17" },
+{ id: "Yl8CsakkC_0", title: "Video 18" },
+{ id: "gq_M8HywDzc", title: "Video 19" },
+{ id: "GDRsBCyxbdQ", title: "Video 20" },
+{ id: "goEQ6-j5gGs", title: "Video 21" },
+{ id: "yjAeK3EdNGo", title: "Video 22" },
+{ id: "nFE5lm32Zdo", title: "Video 23" },
+{ id: "rE9Y67IQiQI", title: "Video 24" },
+{ id: "cHBpOBrsNvw", title: "Video 25" },
+{ id: "stWZUhamkxA", title: "Video 26" },
+{ id: "", title: "Video 27" }
+    ];
+
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player', {
+        videoId: videos[0].id,
+        playerVars: { 
+          'controls': 0, 
+          'rel': 0, 
+          'modestbranding': 1, 
+          'disablekb': 1,
+          'iv_load_policy': 3 
+        },
+        events: { 'onReady': onPlayerReady }
+      });
+    }
+
+    function onPlayerReady() {
+      buildPlaylist();
+
+      // PlayPause toggle
+      document.getElementById('playPauseBtn').onclick = () => {
+        if (isPlaying) {
+          player.pauseVideo();
+          document.getElementById('playPauseBtn').innerText = "▶️";
+        } else {
+          player.playVideo();
+          document.getElementById('playPauseBtn').innerText = "⏸";
+        }
+        isPlaying = !isPlaying;
+      };
+
+      // Forward
+      document.getElementById('forward').onclick = () => {
+        let t = player.getCurrentTime();
+        player.seekTo(t + 10, true);
+      };
+
+      // Backward
+      document.getElementById('backward').onclick = () => {
+        let t = player.getCurrentTime();
+        player.seekTo(t - 10, true);
+      };
+
+      // Seek bar
+      seekBar = document.getElementById('seekBar');
+      seekBar.addEventListener('input', () => {
+        let percent = seekBar.value;
+        let duration = player.getDuration();
+        player.seekTo(duration * (percent / 100), true);
+      });
+
+      updateInterval = setInterval(() => {
+        if (player && player.getDuration) {
+          let duration = player.getDuration();
+          let current = player.getCurrentTime();
+          if (duration > 0) {
+            seekBar.value = (current / duration) * 100;
+          }
+        }
+      }, 1000);
+
+      // Quality Control
+      document.getElementById('qualityControl').addEventListener('change', (e) => {
+        player.setPlaybackQuality(e.target.value);
+      });
+      setTimeout(loadQualityLevels, 2000);
+
+      // Fullscreen
+      document.getElementById('fullscreenBtn').onclick = () => {
+        let container = document.getElementById("videoContainer");
+        if (container.requestFullscreen) container.requestFullscreen();
+        else if (container.mozRequestFullScreen) container.mozRequestFullScreen();
+        else if (container.webkitRequestFullscreen) container.webkitRequestFullscreen();
+        else if (container.msRequestFullscreen) container.msRequestFullscreen();
+      };
+    }
+
+    // Quality options लोड करना
+    function loadQualityLevels() {
+      let levels = player.getAvailableQualityLevels();
+      let select = document.getElementById("qualityControl");
+      select.innerHTML = "";
+
+      levels.forEach(level => {
+        let opt = document.createElement("option");
+        opt.value = level;
+        opt.text = level.toUpperCase();
+        select.appendChild(opt);
+      });
+
+      // Default auto
+      if (levels.includes("auto")) {
+        select.value = "auto";
+        player.setPlaybackQuality("360");
+      }
+    }
+
+    // Playlist बनाना
+    function buildPlaylist() {
+      const list = document.getElementById("playlist");
+      videos.forEach((video, index) => {
+        let item = document.createElement("div");
+        item.className = "playlist-item" + (index === currentIndex ? " active" : "");
+        item.innerText = video.title;
+        item.onclick = () => changeVideo(index);
+        list.appendChild(item);
+      });
+    }
+
+    // Video बदलना
+    function changeVideo(index) {
+      if (index < 0 || index >= videos.length) return;
+      currentIndex = index;
+      player.loadVideoById(videos[index].id);
+
+      // active highlight
+      document.querySelectorAll(".playlist-item").forEach((el, i) => {
+        el.classList.toggle("active", i === currentIndex);
+      });
+
+      document.getElementById('playPauseBtn').innerText = "⏸";
+      isPlaying = true;
+    }
+  </script>
+</body>
 </html>

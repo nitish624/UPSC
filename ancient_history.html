@@ -3,129 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>Custom YouTube Playlist Player</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #F4F1DE;
-      color: #fff;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-      
-    }
-    
-    #heading{
-      background: red;
-    }
-    
-    .container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: center;
-      padding: 10px 20px 20px 20px;
-    }
-
-    /* Video Player */
-    .video-container {
-      position: relative;
-      flex: 1 1 600px;
-      max-width: 800px;
-      aspect-ratio: 16 / 9;
-      background: #676FCD;
-      border-radius: 10px;
-      overflow: hidden;
-    }
-
-    #player {
-      width: 100%;
-      height: 100%;
-    }
-
-    .click-block {
-      position: absolute;
-      inset: 0;
-      background: transparent;
-      z-index: 5;
-    }
-
-    .controls {
-      position: absolute;
-      bottom: 5px;
-      left: 0;
-      right: 0;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: center;
-      gap: 6px;
-      z-index: 10;
-      background: rgba(0,0,0,0.6);
-      padding: 8px;
-      border-radius: 8px;
-    }
-
-    .controls button, .controls select {
-      padding: 4px 8px;
-      border: none;
-      border-radius: 4px;
-      background: transparent;
-      color: #fff;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    .controls button:hover, .controls select:hover {
-      background: #676FCD;
-    }
-
-    /* Seekbar full width */
-    #seekBar {
-      flex: 1;
-      height: 6px;
-      cursor: pointer;
-    }
-
-    /* Playlist */
-    .playlist {
-      flex: 1 1 250px;
-      max-width: 300px;
-      background: #676FCD;
-      border-radius: 10px;
-      padding: 10px;
-      overflow-y: auto;
-      max-height: 400px;
-      display: block; /* 
-      ✅ हमेशा दिखेगा */
-    }
-
-    .playlist h3 {
-      margin: 0 0 10px;
-      font-size: 18px;
-      color: white;
-      background: blue;
-      border-radius: 12px;
-    }
-
-    .playlist-item {
-      padding: 8px;
-      margin-bottom: 6px;
-      background: #2D80BE;
-      border-radius: 6px;
-      cursor: pointer;
-      text-align: left;
-      font-size: 14px;
-    }
-
-    .playlist-item:hover {
-      background: #35610F;
-    }
-
-    .playlist-item.active {
-      background: blanched#131B6Balmond;
-      color: #fff;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <h2 id="heading">🎬 Ancient History by Sujeet Sir Playlist</h2>
@@ -163,33 +41,33 @@
 
     // 🔹 Playlist Data
     const videos = [
-      { id: "hrnBTAxa6eY", title: "Video 1" },
-{ id: "fq9dg_1ZaDI", title: "Video 2" },
-{ id: "o9uUwUYbHEE", title: "Video 3" },
-{ id: "gaNhBv_6HVA", title: "Video 4" },
-{ id: "z1N_aPuQ7FE", title: "Video 5" },
-{ id: "LYTwHRYM1iw", title: "Video 6" },
-{ id: "s_aizw5lYsE", title: "Video 7" },
-{ id: "kD7L_V2RtVs", title: "Video 8" },
-{ id: "-siU6ABES_E", title: "Video 9" },
-{ id: "8cs1WZVo2LA", title: "Video 10" },
-{ id: "FjC74fMFKFc", title: "Video 11" },
-{ id: "HwKKbhWCtB4", title: "Video 12" },
-{ id: "JlMkhpnKDVs", title: "Video 13" },
-{ id: "2bnE7gUSzw8", title: "Video 14" },
-{ id: "lESqXjFancU", title: "Video 15" },
-{ id: "LRamWrHeVac", title: "Video 16" },
-{ id: "LJ_1icdA9Qc", title: "Video 17" },
-{ id: "IAdnkejw0EA", title: "Video 18" },
-{ id: "mBBiLqDB-M0", title: "Video 19" },
-{ id: "MxGneT1gh6k", title: "Video 20" },
-{ id: "uoNgemIHBmU", title: "Video 21" },
-{ id: "15-cgZrpBS8", title: "Video 22" },
-{ id: "hEnV0cGwzoE", title: "Video 23" },
-{ id: "hkZHJUlIXvI", title: "Video 24" },
-{ id: "EmsgbnDEnzs", title: "Video 25" },
-{ id: "Y2gLdrjdf5A", title: "Video 26" },
-{ id: "gunI6SJwwKE", title: "Video 27" }
+{ id: "u2cKaVXz19Q", title: "Video 1" },
+{ id: "orDYMgZox3A", title: "Video 2" },
+{ id: "XM4o99WYELg", title: "Video 3" },
+{ id: "5GtwcqkQ0fM", title: "Video 4" },
+{ id: "b9BJMuUHVJ8", title: "Video 5" },
+{ id: "BVTrIqSy-WU", title: "Video 6" },
+{ id: "-CGwzPgZeFg", title: "Video 7" },
+{ id: "bR1oa-DdSms", title: "Video 8" },
+{ id: "a3wAfsFQdEI", title: "Video 9" },
+{ id: "snovbBEQEOo", title: "Video 10" },
+{ id: "eW0Ajcj7zmY", title: "Video 11" },
+{ id: "5Zx4tI4M3hw", title: "Video 12" },
+{ id: "JLw7Mz6irPE", title: "Video 13" },
+{ id: "xblZq6htaH8", title: "Video 14" },
+{ id: "4Gx_fafAcPg", title: "Video 15" },
+{ id: "PS-K9fWZHtI", title: "Video 16" },
+{ id: "3tRUGSBc-0k", title: "Video 17" },
+{ id: "Yl8CsakkC_0", title: "Video 18" },
+{ id: "gq_M8HywDzc", title: "Video 19" },
+{ id: "GDRsBCyxbdQ", title: "Video 20" },
+{ id: "goEQ6-j5gGs", title: "Video 21" },
+{ id: "yjAeK3EdNGo", title: "Video 22" },
+{ id: "nFE5lm32Zdo", title: "Video 23" },
+{ id: "rE9Y67IQiQI", title: "Video 24" },
+{ id: "cHBpOBrsNvw", title: "Video 25" },
+{ id: "stWZUhamkxA", title: "Video 26" },
+{ id: "", title: "Video 27" }
     ];
 
     function onYouTubeIframeAPIReady() {

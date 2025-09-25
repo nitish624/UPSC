@@ -1,0 +1,121 @@
+body {
+      font-family: Arial, sans-serif;
+      background: #F4F1DE;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      
+    }
+    
+    #heading{
+      background: red;
+    }
+    
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      padding: 10px 20px 20px 20px;
+    }
+
+    /* Video Player */
+    .video-container {
+      position: relative;
+      flex: 1 1 600px;
+      max-width: 800px;
+      aspect-ratio: 16 / 9;
+      background: #676FCD;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    #player {
+      width: 100%;
+      height: 100%;
+    }
+
+    .click-block {
+      position: absolute;
+      inset: 0;
+      background: transparent;
+      z-index: 5;
+    }
+
+    .controls {
+      position: absolute;
+      bottom: 5px;
+      left: 0;
+      right: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+      z-index: 10;
+      background: rgba(0,0,0,0.6);
+      padding: 8px;
+      border-radius: 8px;
+    }
+
+    .controls button, .controls select {
+      padding: 4px 8px;
+      border: none;
+      border-radius: 4px;
+      background: transparent;
+      color: #fff;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .controls button:hover, .controls select:hover {
+      background: #676FCD;
+    }
+
+    /* Seekbar full width */
+    #seekBar {
+      flex: 1;
+      height: 6px;
+      cursor: pointer;
+    }
+
+    /* Playlist */
+    .playlist {
+      flex: 1 1 250px;
+      max-width: 300px;
+      background: #676FCD;
+      border-radius: 10px;
+      padding: 10px;
+      overflow-y: auto;
+      max-height: 400px;
+      display: block; /* 
+      ✅ हमेशा दिखेगा */
+    }
+
+    .playlist h3 {
+      margin: 0 0 10px;
+      font-size: 18px;
+      color: white;
+      background: blue;
+      border-radius: 12px;
+    }
+
+    .playlist-item {
+      padding: 8px;
+      margin-bottom: 6px;
+      background: #2D80BE;
+      border-radius: 6px;
+      cursor: pointer;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    .playlist-item:hover {
+      background: #35610F;
+    }
+
+    .playlist-item.active {
+      background: blanched#131B6Balmond;
+      color: #fff;
+    }
