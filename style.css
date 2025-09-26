@@ -115,7 +115,7 @@ body {
       background: #35610F;
     }
 
-    .playlist-item.active {
-      background: blanched#131B6Balmond;
+    .playlist-item.active{
+      background:blanched #131B6Balmond;
       color: #fff;
     }
